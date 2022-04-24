@@ -44,7 +44,7 @@ async function main() {
 		.setNumerator(50)
 		.setDenominator(100)
 		.setFeeCollectorAccountId(treasuryId)
-		.setFallbackFee(new CustomFixedFee().setHbarAmount(new Hbar(50)));
+		.setFallbackFee(new CustomFixedFee().setHbarAmount(new Hbar(200)));
 
 	// IPFS CONTENT IDENTIFIERS FOR WHICH WE WILL CREATE NFTs
 	CID = [
@@ -142,7 +142,7 @@ async function main() {
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
 	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
 	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
-    console.log(`- My balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
+    console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
 	// 1st TRANSFER NFT Treasury->Alice
 	let tokenTransferTx = await new TransferTransaction()
@@ -161,7 +161,7 @@ async function main() {
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
 	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
 	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
-    console.log(`- My balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
+    console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
 	// 2nd NFT TRANSFER NFT Treasury->Bob
 	let tokenTransferTx2 = await new TransferTransaction()
@@ -181,7 +181,7 @@ async function main() {
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
 	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
 	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
-    console.log(`- My balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
+    console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
 	// 3rd NFT TRANSFER NFT Treasury -> Operator
 	let tokenTransferTx3 = await new TransferTransaction()
@@ -201,7 +201,7 @@ async function main() {
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
 	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
 	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
-    console.log(`- My balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
+    console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
     // TOKEN MINTER FUNCTION ==========================================
 	async function tokenMinterFcn(CID) {
