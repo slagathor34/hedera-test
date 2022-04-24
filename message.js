@@ -40,12 +40,12 @@ async function main() {
     // Send one message
     let sendResponse = await new TopicMessageSubmitTransaction({
         topicId: topicId,
-        message: "Hello, HCS!",
+        message: "Hello, Puppies!",
     }).execute(client);
     const getReceipt = await sendResponse.getReceipt(client);
     
     //Get the status of the transaction
     const transactionStatus = getReceipt.status
-    console.log("The message transaction status" + transactionStatus)
+    console.log(`The message transaction status: ${transactionStatus}`)
 }
 main();
