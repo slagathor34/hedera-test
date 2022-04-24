@@ -41,7 +41,7 @@ const wipeKey = PrivateKey.generate();
 async function main() {
 	// DEFINE CUSTOM FEE SCHEDULE
 	let nftCustomFee = await new CustomRoyaltyFee()
-		.setNumerator(50)
+		.setNumerator(5)
 		.setDenominator(100)
 		.setFeeCollectorAccountId(treasuryId)
 		.setFallbackFee(new CustomFixedFee().setHbarAmount(new Hbar(200)));
