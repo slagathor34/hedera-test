@@ -25,10 +25,10 @@ const operatorId = AccountId.fromString(process.env.MY_ACCOUNT_ID);
 const operatorKey = PrivateKey.fromString(process.env.MY_PRIVATE_KEY);
 const treasuryId = AccountId.fromString(process.env.TREASURY_ID);
 const treasuryKey = PrivateKey.fromString(process.env.TREASURY_PVKEY);
-const aliceId = AccountId.fromString(process.env.ALICE_ID);
-const aliceKey = PrivateKey.fromString(process.env.ALICE_PVKEY);
-const bobId = AccountId.fromString(process.env.BOB_ID);
-const bobKey = PrivateKey.fromString(process.env.BOB_PVKEY);
+const bentleyId = AccountId.fromString(process.env.BENTLEY_ID);
+const bentleyKey = PrivateKey.fromString(process.env.BENTLEY_PVKEY);
+const rupertId = AccountId.fromString(process.env.RUPERT_ID);
+const rupertKey = PrivateKey.fromString(process.env.RUPERT_PVKEY);
 
 const client = Client.forTestnet().setOperator(operatorId, operatorKey);
 
@@ -104,25 +104,25 @@ async function main() {
 	var tokenInfo = await new TokenInfoQuery().setTokenId(tokenId).execute(client);
 	console.log(`Current NFT supply: ${tokenInfo.totalSupply} \n`);
 
-	// AUTO-ASSOCIATION FOR ALICE'S ACCOUNT
+	// AUTO-ASSOCIATION FOR BENTLEY'S ACCOUNT
 	let associateTx = await new AccountUpdateTransaction()
-		.setAccountId(aliceId)
+		.setAccountId(bentleyId)
 		.setMaxAutomaticTokenAssociations(100)
 		.freezeWith(client)
-		.sign(aliceKey);
+		.sign(bentleyKey);
 	let associateTxSubmit = await associateTx.execute(client);
 	let associateRx = await associateTxSubmit.getReceipt(client);
-	console.log(`Alice NFT Auto-Association: ${associateRx.status} \n`);
+	console.log(`Bentley's NFT Auto-Association: ${associateRx.status} \n`);
 
-	// MANUAL ASSOCIATION FOR BOB'S ACCOUNT
-	let associateBobTx = await new TokenAssociateTransaction()
-		.setAccountId(bobId)
+	// MANUAL ASSOCIATION FOR Rupert'S ACCOUNT
+	let associateRupertTx = await new TokenAssociateTransaction()
+		.setAccountId(rupertId)
 		.setTokenIds([tokenId])
 		.freezeWith(client)
-		.sign(bobKey);
-	let associateBobTxSubmit = await associateBobTx.execute(client);
-	let associateBobRx = await associateBobTxSubmit.getReceipt(client);
-	console.log(`Bob NFT Manual Association: ${associateBobRx.status} \n`);
+		.sign(rupertKey);
+	let associateRupertTxSubmit = await associateRupertTx.execute(client);
+	let associateRupertRx = await associateRupertTxSubmit.getReceipt(client);
+	console.log(`Rupert's NFT Manual Association: ${associateRupertRx.status} \n`);
     
     // AUTO-ASSOCIATION FOR Operator ACCOUNT
 	let associateOwnerTx = await new AccountUpdateTransaction()
@@ -132,55 +132,56 @@ async function main() {
     .sign(operatorKey);
     let associateOwnerTxSubmit = await associateOwnerTx.execute(client);
     let associateOwnerRx = await associateOwnerTxSubmit.getReceipt(client);
-    console.log(`Operator NFT Auto-Association: ${associateOwnerRx.status} \n`);
+    console.log(`Operator's NFT Auto-Association: ${associateOwnerRx.status} \n`);
 
 	// BALANCE CHECK 1
 	oB = await bCheckerFcn(treasuryId);
-	aB = await bCheckerFcn(aliceId);
-	bB = await bCheckerFcn(bobId);
+	aB = await bCheckerFcn(bentleyId);
+	bB = await bCheckerFcn(rupertId);
     mB = await bCheckerFcn(operatorId);
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
-	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
-	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
+	console.log(`- Bentley balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
+	console.log(`- Rupert balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
     console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
-	// 1st TRANSFER NFT Treasury->Alice
+
+	// 1st TRANSFER NFT Treasury->Bentley
 	let tokenTransferTx = await new TransferTransaction()
-		.addNftTransfer(tokenId, 2, treasuryId, aliceId)
+		.addNftTransfer(tokenId, 2, treasuryId, bentleyId)
 		.freezeWith(client)
 		.sign(treasuryKey);
 	let tokenTransferSubmit = await tokenTransferTx.execute(client);
 	let tokenTransferRx = await tokenTransferSubmit.getReceipt(client);
-	console.log(`\n NFT transfer Treasury->Alice status: ${tokenTransferRx.status} \n`);
+	console.log(`\n NFT transfer Treasury->Bentley status: ${tokenTransferRx.status} \n`);
 
 	// BALANCE CHECK 2
     oB = await bCheckerFcn(treasuryId);
-	aB = await bCheckerFcn(aliceId);
-	bB = await bCheckerFcn(bobId);
+	aB = await bCheckerFcn(bentleyId);
+	bB = await bCheckerFcn(rupertId);
     mB = await bCheckerFcn(operatorId);
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
-	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
-	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
+	console.log(`- Bentley balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
+	console.log(`- Rupert balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
     console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
-	// 2nd NFT TRANSFER NFT Treasury->Bob
+	// 2nd NFT TRANSFER NFT Treasury->Rupert
 	let tokenTransferTx2 = await new TransferTransaction()
-		.addNftTransfer(tokenId, 3, treasuryId, bobId)
+		.addNftTransfer(tokenId, 3, treasuryId, rupertId)
 		.freezeWith(client)
 		.sign(treasuryKey);
-	tokenTransferTx2Sign = await tokenTransferTx2.sign(bobKey);
+	tokenTransferTx2Sign = await tokenTransferTx2.sign(rupertKey);
 	let tokenTransferSubmit2 = await tokenTransferTx2Sign.execute(client);
 	let tokenTransferRx2 = await tokenTransferSubmit2.getReceipt(client);
-	console.log(`\n NFT transfer Treasury->Bob status: ${tokenTransferRx2.status} \n`);
+	console.log(`\n NFT transfer Treasury->Rupert status: ${tokenTransferRx2.status} \n`);
 
 	// BALANCE CHECK 3
 	oB = await bCheckerFcn(treasuryId);
-	aB = await bCheckerFcn(aliceId);
-	bB = await bCheckerFcn(bobId);
+	aB = await bCheckerFcn(bentleyId);
+	bB = await bCheckerFcn(rupertId);
     mB = await bCheckerFcn(operatorId);
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
-	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
-	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
+	console.log(`- Bentley balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
+	console.log(`- Rupert balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
     console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
 	// 3rd NFT TRANSFER NFT Treasury -> Operator
@@ -195,12 +196,12 @@ async function main() {
 
     // BALANCE CHECK 4
 	oB = await bCheckerFcn(treasuryId);
-	aB = await bCheckerFcn(aliceId);
-	bB = await bCheckerFcn(bobId);
+	aB = await bCheckerFcn(bentleyId);
+	bB = await bCheckerFcn(rupertId);
     mB = await bCheckerFcn(operatorId);
 	console.log(`- Treasury balance: ${oB[0]} NFTs of ID:${tokenId} and ${oB[1]}`);
-	console.log(`- Alice balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
-	console.log(`- Bob balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
+	console.log(`- Bentley balance: ${aB[0]} NFTs of ID:${tokenId} and ${aB[1]}`);
+	console.log(`- Rupert balance: ${bB[0]} NFTs of ID:${tokenId} and ${bB[1]}`);
     console.log(`- Operator balance: ${mB[0]} NFTs of ID:${tokenId} and ${mB[1]}`);
 
     // TOKEN MINTER FUNCTION ==========================================
