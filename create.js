@@ -124,7 +124,7 @@ async function main() {
 	let associateRupertRx = await associateRupertTxSubmit.getReceipt(client);
 	console.log(`Rupert's NFT Manual Association: ${associateRupertRx.status} \n`);
     
-    // AUTO-ASSOCIATION FOR Operator ACCOUNT
+    // AUTO-ASSOCIATION FOR Operator's ACCOUNT
 	let associateOwnerTx = await new AccountUpdateTransaction()
     .setAccountId(operatorId)
     .setMaxAutomaticTokenAssociations(100)
