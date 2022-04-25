@@ -27,6 +27,7 @@ const client = Client.forTestnet().setOperator(operatorId, operatorKey);
 const supplyKey = PrivateKey.generate();
 
 async function main() {
+    
 	//CREATE FUNGIBLE TOKEN (STABLECOIN)
 	let tokenCreateTx = await new TokenCreateTransaction()
 		.setTokenName("USD Bar")
