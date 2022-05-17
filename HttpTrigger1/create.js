@@ -92,14 +92,14 @@ async function main() {
 	}
 
 	// BURN THE LAST NFT IN THE COLLECTION
-	let tokenBurnTx = await new TokenBurnTransaction()
-		.setTokenId(tokenId)
-	 	.setSerials([CID.length])
-	 	.freezeWith(client)
-	 	.sign(supplyKey);
-	 let tokenBurnSubmit = await tokenBurnTx.execute(client);
-	 let tokenBurnRx = await tokenBurnSubmit.getReceipt(client);
-	 console.log(`\nBurn NFT with serial ${CID.length}: ${tokenBurnRx.status} \n`);
+	// let tokenBurnTx = await new TokenBurnTransaction()
+	// 	.setTokenId(tokenId)
+	// 	.setSerials([CID.length])
+	// 	.freezeWith(client)
+	// 	.sign(supplyKey);
+	// let tokenBurnSubmit = await tokenBurnTx.execute(client);
+	// let tokenBurnRx = await tokenBurnSubmit.getReceipt(client);
+	// console.log(`\nBurn NFT with serial ${CID.length}: ${tokenBurnRx.status} \n`);
 
 	var tokenInfo = await new TokenInfoQuery().setTokenId(tokenId).execute(client);
 	console.log(`Current NFT supply: ${tokenInfo.totalSupply} \n`);
