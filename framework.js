@@ -37,6 +37,7 @@ const adminKey = PrivateKey.generate();
 const pauseKey = PrivateKey.generate();
 const freezeKey = PrivateKey.generate();
 const wipeKey = PrivateKey.generate();
+var tokenId = "0.0.34929281";
 
 CID = [
     "QmNPCiNA3Dsu3K5FxDPMG5Q3fZRwVTg14EXA92uqEeSRXn",
@@ -141,7 +142,7 @@ async function BurnLastToken() {
 
 async function CreateNFTwithCustomFeeSchedule() {
   let nftCustomFee = new CustomRoyaltyFee()
-      .setNumerator(5)
+      .setNumerator(50)
       .setDenominator(100)
       .setFeeCollectorAccountId(treasuryId)
       .setFallbackFee(new CustomFixedFee().setHbarAmount(new Hbar(200)));
@@ -168,7 +169,7 @@ async function CreateNFTwithCustomFeeSchedule() {
   let nftCreateTxSign = await nftCreate.sign(adminKey);
   let nftCreateSubmit = await nftCreateTxSign.execute(client);
   let nftCreateRx = await nftCreateSubmit.getReceipt(client);
-  let tokenId = nftCreateRx.tokenId;
+  var tokenId = nftCreateRx.tokenId;
   console.log(`Created NFT with Token ID: ${tokenId} \n`);
 }
 
@@ -196,6 +197,7 @@ async function MintNFTFactory() {
     nftLeaf[i] = await tokenMinterFcn(CID[i]);
     console.log(`Created NFT ${tokenId} with serial: ${nftLeaf[i].serials[0].low}`);
   }
+
 }
 
 // TOKEN MINTER FUNCTION ==========================================
@@ -403,12 +405,9 @@ async function bCheckerFcn(id) {
 }
 
 function main(){
-
-  //MintNewNFT();
-  tokenId = "0.0.34929225"
   CreateNFTwithCustomFeeSchedule();
-  CheckNFTFeeSchedule();
-  MintNFTFactory();
+  CheckNFTFeeSchedule();  
+  //MintNFTFactory();
   
 }
 
